@@ -46,31 +46,20 @@
     </div>
 
     <div class="notes flex w-[90%] md:w-[35%] mx-auto my-5 flex-col">
-      <div class="note">
-        <h3 class="cursor-pointer text-3xl">Title</h3>
-      </div>
-      <div class="note">
-        <h3 class="cursor-pointer text-3xl">Title</h3>
-      </div>
-      <div class="note">
-        <h3 class="cursor-pointer text-3xl">Title</h3>
-      </div>
+    
     </div>
     <div
-      class="details-overlay hiddn bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
+      class="details-overlay hidden bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
     >
       <div class="noteDetails bg-white w-[50%] h-[50%] p-5 rounded">
         <div class="header flex justify-around p-2 items-center w-full">
-          <h3 class="text-3xl title">Title</h3>
+          <h3 class="text-3xl title"></h3>
           <button class="ml-auto p-3 text-2xl details-close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div class="content h-[50%] p-2 overflow-scroll">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis
-          nesciunt voluptatum pariatur incidunt et, officiis beatae eos numquam
-          veritatis. Quibusdam molestias non veniam fugit exercitationem qui
-          numquam alias aliquid et?
+        <div class="content h-[50%] p-2 overflow-auto">
+       
         </div>
         <div class="actions flex justify-end">
           <button class="bg-black text-white rounded mx-2 p-2 px-4">
@@ -105,11 +94,13 @@
           type="text"
           placeholder="TITLE"
           class="w-full p-3 text-5xl outline-0"
+          name="title"
         />
         <textarea
           placeholder="content"
           class="w-full p-3 text-3xl outline-0 resize-none"
           rows="50"
+          name="content"
         ></textarea>
         <button class="bg-black text-white py-3 px-10 rounded add-note">
           Add
