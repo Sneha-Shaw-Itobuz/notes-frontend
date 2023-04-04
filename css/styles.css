@@ -1,0 +1,18 @@
+.note {
+  border: 2px solid black;
+  padding: 1rem;
+  margin: 1rem 0;
+  width: 80%;
+}
+
+.note:nth-child(odd) {
+  border-radius: 1rem 0;
+  margin-right: auto;
+}
+
+.note:nth-child(even) {
+  border-radius: 0 1rem;
+  margin-left: auto;
+  background-color: black;
+  color: white;
+}

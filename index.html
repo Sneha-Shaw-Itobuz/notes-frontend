@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <nav
+      class="w-full flex justify-around bg-black text-white p-3 text-xl items-center"
+    >
+      <div class="profile">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="search">
+        <input type="search" class="outline-0 p-1 text-black rounded mr-3" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </nav>
+
+    <h1 class="text-6xl font-semibold text-center">All Notes</h1>
+
+    <div
+      class="filters flex md:w-[10%] w-[60%] justify-around items-center mx-auto my-5"
+    >
+      <button
+        class="filter border-2 p-2 rounded border-black hover:bg-black hover:text-white"
+      >
+        All
+      </button>
+      <button
+        class="filter border-2 p-2 rounded border-black hover:bg-black hover:text-white"
+      >
+        Important
+      </button>
+    </div>
+
+    <div class="notes flex w-[90%] md:w-[35%] mx-auto my-5 flex-col">
+      <div class="note">
+        <h3 class="cursor-pointer text-3xl">Title</h3>
+      </div>
+      <div class="note">
+        <h3 class="cursor-pointer text-3xl">Title</h3>
+      </div>
+      <div class="note">
+        <h3 class="cursor-pointer text-3xl">Title</h3>
+      </div>
+    </div>
+    <div
+      class="details-overlay hiddn bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
+    >
+      <div class="noteDetails bg-white w-[50%] h-[50%] p-5 rounded">
+        <div class="header flex justify-around p-2 items-center w-full">
+          <h3 class="text-3xl title">Title</h3>
+          <button class="ml-auto p-3 text-2xl details-close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="content h-[50%] p-2 overflow-scroll">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis
+          nesciunt voluptatum pariatur incidunt et, officiis beatae eos numquam
+          veritatis. Quibusdam molestias non veniam fugit exercitationem qui
+          numquam alias aliquid et?
+        </div>
+        <div class="actions flex justify-end">
+          <button class="bg-black text-white rounded mx-2 p-2 px-4">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="bg-black text-white rounded mx-2 p-2 px-4">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button
+      class="add-btn bg-black p-4 px-5 rounded-full text-white fixed bottom-[5%] left-[80%] md:left-[65%]"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div
+      class="form-overlay hidden bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
+    >
+      <form
+        name="form"
+        class="bg-white w-[50%] h-[70%] rounded flex flex-col items-center p-3"
+      >
+        <div class="header flex justify-around p-2 items-center w-full">
+          <h3 class="text-3xl">Add Note</h3>
+          <button class="ml-auto p-3 text-2xl form-close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <input
+          type="text"
+          placeholder="TITLE"
+          class="w-full p-3 text-5xl outline-0"
+        />
+        <textarea
+          placeholder="content"
+          class="w-full p-3 text-3xl outline-0 resize-none"
+          rows="50"
+        ></textarea>
+        <button class="bg-black text-white py-3 px-10 rounded add-note">
+          Add
+        </button>
+      </form>
+    </div>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
