@@ -1,16 +1,18 @@
-const addBtn = document.querySelector(".add-btn");
+const showFormBtn = document.querySelector(".add-btn");
 const formOverlay = document.querySelector(".form-overlay");
 const formCloseBtn = document.querySelector(".form-close");
 const detailsOverlay = document.querySelector(".details-overlay");
 const detailsCloseBtn = document.querySelector(".details-close");
-const submitNote = document.querySelector(".add-note");
+const submitNoteBtn = document.querySelector(".add-note");
 const noteContainer = document.querySelector(".notes");
 const modifyBtn = document.querySelector(".modify");
 
-addBtn.addEventListener("click", () => {
+// toggle hide/show for form
+showFormBtn.addEventListener("click", () => {
   formOverlay.classList.toggle("hidden");
 });
 
+// close form
 formCloseBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formOverlay.classList.toggle("hidden");
@@ -18,9 +20,9 @@ formCloseBtn.addEventListener("click", (e) => {
 
 const API = "http://localhost:8080/notes";
 
-submitNote.addEventListener("click", (e) => {
+// post note on submit
+submitNoteBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  console.log(form.isImportant.checked);
   if (
     form.title.value.trim().length > 0 &&
     form.content.value.trim().length > 0
@@ -33,7 +35,6 @@ submitNote.addEventListener("click", (e) => {
       body: JSON.stringify({
         title: form.title.value,
         content: form.content.value,
-        isImportant: form.isImportant.checked,
       }),
     }).then((res) => {
       console.log("Request complete! response:", res);
@@ -52,14 +53,11 @@ const getSingleNote = async (id) => {
 };
 
 const deleteNote = async (id) => {
-  await fetch(`${API}/delete`, {
+  await fetch(`${API}/delete/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({
-      id: id,
-    }),
   }).then((res) => {
     console.log("Request complete! response:", res);
 
@@ -73,9 +71,7 @@ const editNote = async (id, titleDiv, contentDiv) => {
 
   modifyBtn.classList.toggle("hidden");
 
-
   modifyBtn.addEventListener("click", async () => {
-  
     await fetch(`${API}/update`, {
       method: "PUT",
       headers: {

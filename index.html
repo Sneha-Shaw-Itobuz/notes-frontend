@@ -19,34 +19,26 @@
       <div class="logo">
         <a href="#" class="text-5xl">Notes</a>
       </div>
-      <div class="search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      
-      </div>
     </nav>
-
-    <h1 class="text-6xl font-semibold text-center">All Notes</h1>
-
+    <!-- container for appending notes -->
     <div
-      class="notes flex w-[90%] md:w-[50%] xl:w-[35%] mx-auto my-5 flex-col"
+      class="notes flex w-[90%] md:w-1/2 xl:w-[35%] mx-auto my-5 flex-col"
     ></div>
+    <!-- popup to be shown on click on a note -->
     <div
       class="details-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
     >
-      <div class="noteDetails bg-white md:w-[50%] w-[90%] h-[50%] p-5 rounded">
+      <div class="noteDetails bg-white md:w-1/2 w-[90%] h-1/2 p-5 rounded">
         <div class="header flex justify-around p-2 items-center w-full">
-          <h3 class="text-3xl title"></h3>
+          <h3 class="text-3xl title w-1/2 px-1 py-2 font-semibold"></h3>
 
           <button class="ml-auto p-3 text-2xl details-close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div class="content h-[50%] p-2 overflow-auto"></div>
+        <div class="content h-1/2 p-2 overflow-auto"></div>
 
         <div class="actions flex justify-end items-center">
-          <!-- <div class="mx-2">
-            <i class="fa-solid fa-star"></i>
-          </div> -->
           <button
             class="hidden bg-black text-white rounded mx-2 p-2 px-4 modify"
           >
@@ -61,18 +53,20 @@
         </div>
       </div>
     </div>
+
+    <!-- show form -->
     <button
       class="add-btn bg-black p-4 px-5 rounded-full text-white fixed bottom-[5%] left-[80%] md:left-[65%]"
     >
       <i class="fa-solid fa-plus"></i>
     </button>
-
+    <!-- form to add note -->
     <div
       class="form-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
     >
       <form
         name="form"
-        class="bg-white md:w-[50%] w-[90%] h-[70%] rounded flex flex-col items-center p-3"
+        class="bg-white md:w-1/2 w-[90%] h-[70%] rounded flex flex-col items-center p-3"
       >
         <div class="header flex justify-around p-2 items-center w-full">
           <h3 class="text-3xl">Add Note</h3>
@@ -92,15 +86,13 @@
           rows="50"
           name="content"
         ></textarea>
-        <div class="my-5 mr-auto">
-          <input type="checkbox" name="isImportant" />
-          <label for="">Mark as Important</label>
-        </div>
+       
         <button class="bg-black text-white py-3 px-10 rounded add-note">
           Add
         </button>
       </form>
     </div>
+
     <script src="./js/script.js"></script>
   </body>
 </html>

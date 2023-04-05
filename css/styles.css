@@ -4,6 +4,8 @@
   margin: 1rem 0;
   width: 80%;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
 .note:nth-child(odd) {
@@ -16,14 +18,4 @@
   margin-left: auto;
   background-color: black;
   color: white;
-}
-
-.note h3 {
-  font-size: 1.2rem;
-
-}
-
-.active-btn {
-  background: black;
-  color: #fff;
 }
