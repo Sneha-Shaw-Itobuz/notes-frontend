@@ -6,6 +6,8 @@ const detailsCloseBtn = document.querySelector(".details-close");
 const submitNoteBtn = document.querySelector(".add-note");
 const noteContainer = document.querySelector(".notes");
 const modifyBtn = document.querySelector(".modify");
+const titleDiv = detailsOverlay.querySelector(".title");
+const contentDiv = detailsOverlay.querySelector(".content");
 
 // toggle hide/show for form
 showFormBtn.addEventListener("click", () => {
@@ -36,11 +38,15 @@ submitNoteBtn.addEventListener("click", (e) => {
         title: form.title.value,
         content: form.content.value,
       }),
-    }).then((res) => {
-      console.log("Request complete! response:", res);
+    })
+      .then((res) => {
+        console.log("Request complete! response:", res);
 
-      window.location.reload();
-    });
+        window.location.reload();
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   } else {
     alert("fields are empty");
   }
@@ -58,16 +64,22 @@ const deleteNote = async (id) => {
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  }).then((res) => {
-    console.log("Request complete! response:", res);
+  })
+    .then((res) => {
+      console.log("Request complete! response:", res);
 
-    window.location.reload();
-  });
+      window.location.reload();
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
 };
 
 const editNote = async (id, titleDiv, contentDiv) => {
   titleDiv.setAttribute("contentEditable", "true");
   contentDiv.setAttribute("contentEditable", "true");
+  titleDiv.classList.toggle("active");
+  contentDiv.classList.toggle("active");
 
   modifyBtn.classList.toggle("hidden");
 
@@ -82,11 +94,15 @@ const editNote = async (id, titleDiv, contentDiv) => {
         title: titleDiv.textContent,
         content: contentDiv.textContent,
       }),
-    }).then((res) => {
-      console.log("Request complete! response:", res);
+    })
+      .then((res) => {
+        console.log("Request complete! response:", res);
 
-      window.location.reload();
-    });
+        window.location.reload();
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   });
 };
 
@@ -95,11 +111,8 @@ const displayDetails = async (id) => {
 
   detailsOverlay.classList.toggle("hidden");
 
-  const titleDiv = detailsOverlay.querySelector(".title");
-  const contentDiv = detailsOverlay.querySelector(".content");
-
-  titleDiv.textContent = note.note.title;
-  contentDiv.textContent = note.note.content;
+  titleDiv.textContent = note.data.title;
+  contentDiv.textContent = note.data.content;
 
   detailsOverlay.querySelector(".delete").addEventListener("click", () => {
     deleteNote(id);
