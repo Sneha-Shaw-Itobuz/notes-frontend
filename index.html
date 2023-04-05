@@ -9,9 +9,6 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -19,53 +16,46 @@
     <nav
       class="w-full flex justify-around bg-black text-white p-3 text-xl items-center"
     >
-      <div class="profile">
-        <i class="fa-solid fa-user"></i>
+      <div class="logo">
+        <a href="#" class="text-5xl">Notes</a>
       </div>
       <div class="search">
-        <input type="search" class="outline-0 p-1 text-black rounded mr-3" />
         <i class="fa-solid fa-magnifying-glass"></i>
+      
       </div>
     </nav>
 
     <h1 class="text-6xl font-semibold text-center">All Notes</h1>
 
     <div
-      class="filters flex md:w-[10%] w-[60%] justify-around items-center mx-auto my-5"
-    >
-      <button
-        class="filter border-2 p-2 rounded border-black hover:bg-black hover:text-white"
-      >
-        All
-      </button>
-      <button
-        class="filter border-2 p-2 rounded border-black hover:bg-black hover:text-white"
-      >
-        Important
-      </button>
-    </div>
-
-    <div class="notes flex w-[90%] md:w-[35%] mx-auto my-5 flex-col">
-    
-    </div>
+      class="notes flex w-[90%] md:w-[50%] xl:w-[35%] mx-auto my-5 flex-col"
+    ></div>
     <div
-      class="details-overlay hidden bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
+      class="details-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
     >
-      <div class="noteDetails bg-white w-[50%] h-[50%] p-5 rounded">
+      <div class="noteDetails bg-white md:w-[50%] w-[90%] h-[50%] p-5 rounded">
         <div class="header flex justify-around p-2 items-center w-full">
           <h3 class="text-3xl title"></h3>
+
           <button class="ml-auto p-3 text-2xl details-close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div class="content h-[50%] p-2 overflow-auto">
-       
-        </div>
-        <div class="actions flex justify-end">
-          <button class="bg-black text-white rounded mx-2 p-2 px-4">
+        <div class="content h-[50%] p-2 overflow-auto"></div>
+
+        <div class="actions flex justify-end items-center">
+          <!-- <div class="mx-2">
+            <i class="fa-solid fa-star"></i>
+          </div> -->
+          <button
+            class="hidden bg-black text-white rounded mx-2 p-2 px-4 modify"
+          >
+            Modify
+          </button>
+          <button class="bg-black text-white rounded mx-2 p-2 px-4 edit">
             <i class="fa-solid fa-pen-to-square"></i>
           </button>
-          <button class="bg-black text-white rounded mx-2 p-2 px-4">
+          <button class="bg-black text-white rounded mx-2 p-2 px-4 delete">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
@@ -78,11 +68,11 @@
     </button>
 
     <div
-      class="form-overlay hidden bg-[rgba(0,0,0,0.8)] absolute w-full h-[100vh] top-0 flex items-center justify-center"
+      class="form-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
     >
       <form
         name="form"
-        class="bg-white w-[50%] h-[70%] rounded flex flex-col items-center p-3"
+        class="bg-white md:w-[50%] w-[90%] h-[70%] rounded flex flex-col items-center p-3"
       >
         <div class="header flex justify-around p-2 items-center w-full">
           <h3 class="text-3xl">Add Note</h3>
@@ -102,6 +92,10 @@
           rows="50"
           name="content"
         ></textarea>
+        <div class="my-5 mr-auto">
+          <input type="checkbox" name="isImportant" />
+          <label for="">Mark as Important</label>
+        </div>
         <button class="bg-black text-white py-3 px-10 rounded add-note">
           Add
         </button>

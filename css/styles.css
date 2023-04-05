@@ -22,3 +22,8 @@
   font-size: 1.2rem;
 
 }
+
+.active-btn {
+  background: black;
+  color: #fff;
+}
