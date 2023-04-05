@@ -1,5 +1,5 @@
 .note {
-  border: 2px solid rgb(147 197 253);
+  border: 2px solid black;
   padding: 1rem;
   margin: 1rem 0;
   width: 80%;
@@ -16,8 +16,8 @@
 .note:nth-child(even) {
   border-radius: 0 1rem;
   margin-left: auto;
-  background-color: rgb(147 197 253);
-  /* color: white; */
+  background-color: black;
+  color: white;
 }
 
 .active {

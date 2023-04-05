@@ -9,6 +9,8 @@ const modifyBtn = document.querySelector(".modify");
 const titleDiv = detailsOverlay.querySelector(".title");
 const contentDiv = detailsOverlay.querySelector(".content");
 
+const API = "http://localhost:8080/notes";
+
 // toggle hide/show for form
 showFormBtn.addEventListener("click", () => {
   formOverlay.classList.toggle("hidden");
@@ -20,16 +22,14 @@ formCloseBtn.addEventListener("click", (e) => {
   formOverlay.classList.toggle("hidden");
 });
 
-const API = "http://localhost:8080/notes";
-
 // post note on submit
-submitNoteBtn.addEventListener("click", (e) => {
+submitNoteBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   if (
     form.title.value.trim().length > 0 &&
     form.content.value.trim().length > 0
   ) {
-    fetch(`${API}/create`, {
+    await fetch(`${API}/create`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -54,7 +54,7 @@ submitNoteBtn.addEventListener("click", (e) => {
 
 const getSingleNote = async (id) => {
   const res = await fetch(`${API}/get-single-note/${id}`);
-  const data = await res.json();
+  const data = res.json();
   return data;
 };
 
@@ -75,35 +75,24 @@ const deleteNote = async (id) => {
     });
 };
 
-const editNote = async (id, titleDiv, contentDiv) => {
-  titleDiv.setAttribute("contentEditable", "true");
-  contentDiv.setAttribute("contentEditable", "true");
+const editNote = async () => {
+  // console.log(titleDiv.getAttribute('contentEditable'));
+  if (titleDiv.getAttribute("contentEditable") === "false") {
+    titleDiv.setAttribute("contentEditable", "true");
+  } else if (titleDiv.getAttribute("contentEditable") === "true") {
+    titleDiv.setAttribute("contentEditable", "false");
+  }
+  if (contentDiv.getAttribute("contentEditable") === "false") {
+    contentDiv.setAttribute("contentEditable", "true");
+  } else if (contentDiv.getAttribute("contentEditable") === "true") {
+    contentDiv.setAttribute("contentEditable", "false");
+  }
+  // contentDiv.setAttribute("contentEditable", "true");
+
   titleDiv.classList.toggle("active");
   contentDiv.classList.toggle("active");
 
   modifyBtn.classList.toggle("hidden");
-
-  modifyBtn.addEventListener("click", async () => {
-    await fetch(`${API}/update`, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        id: id,
-        title: titleDiv.textContent,
-        content: contentDiv.textContent,
-      }),
-    })
-      .then((res) => {
-        console.log("Request complete! response:", res);
-
-        window.location.reload();
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
-  });
 };
 
 const displayDetails = async (id) => {
@@ -114,18 +103,19 @@ const displayDetails = async (id) => {
   titleDiv.textContent = note.data.title;
   contentDiv.textContent = note.data.content;
 
+  modifyBtn.setAttribute("onclick", "modifyDetails('" + id + "')");
+
   detailsOverlay.querySelector(".delete").addEventListener("click", () => {
     deleteNote(id);
   });
-
-  detailsOverlay.querySelector(".edit").addEventListener("click", () => {
-    editNote(id, titleDiv, contentDiv);
-  });
+  detailsOverlay
+    .querySelector(".edit")
+    .setAttribute("onclick", "editNote('" + id + "')");
 };
 
 const getAllNotes = async () => {
   const res = await fetch(`${API}/get`);
-  const data = await res.json();
+  const data = res.json();
   return data;
 };
 
@@ -138,16 +128,44 @@ const renderNotes = async () => {
     noteCard.innerHTML = `<h3>${note.title}</h3>`;
     noteContainer.appendChild(noteCard);
 
-    noteCard.addEventListener("click", () => {
-      displayDetails(note._id);
-    });
+    noteCardHandler(noteCard, note._id);
+    // noteCard.addEventListener("click", () => {
+    //   displayDetails(note._id);
+    // });
   });
 };
 
 detailsCloseBtn.addEventListener("click", () => {
+  titleDiv.classList.remove("active");
+  contentDiv.classList.remove("active");
+  modifyBtn.classList.add("hidden");
   detailsOverlay.classList.toggle("hidden");
 });
 
-(() => {
-  renderNotes();
-})();
+function noteCardHandler(noteCard, id) {
+  noteCard.setAttribute("onclick", "displayDetails('" + id + "')");
+}
+
+async function modifyDetails(id) {
+  await fetch(`${API}/update`, {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({
+      id: id,
+      title: titleDiv.textContent,
+      content: contentDiv.textContent,
+    }),
+  })
+    .then((res) => {
+      console.log("Request complete! response:", res);
+
+      window.location.reload();
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+}
+
+renderNotes();
