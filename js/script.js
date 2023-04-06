@@ -6,8 +6,10 @@ const detailsCloseBtn = document.querySelector(".details-close");
 const submitNoteBtn = document.querySelector(".add-note");
 const noteContainer = document.querySelector(".notes");
 const modifyBtn = document.querySelector(".modify");
-const titleDiv = detailsOverlay.querySelector(".title");
-const contentDiv = detailsOverlay.querySelector(".content");
+const titleDiv = document.querySelector(".title");
+const contentDiv = document.querySelector(".content");
+const successBox = document.querySelector(".success");
+const successMessage = document.querySelector(".message");
 
 const API = "http://localhost:8080/notes";
 
@@ -21,6 +23,15 @@ formCloseBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formOverlay.classList.toggle("hidden");
 });
+
+const closeDetails = () => {
+  titleDiv.setAttribute("contentEditable", "false");
+  contentDiv.setAttribute("contentEditable", "false");
+  titleDiv.classList.remove("active");
+  contentDiv.classList.remove("active");
+  modifyBtn.classList.add("hidden");
+  detailsOverlay.classList.toggle("hidden");
+};
 
 // post note on submit
 submitNoteBtn.addEventListener("click", async (e) => {
@@ -41,8 +52,17 @@ submitNoteBtn.addEventListener("click", async (e) => {
     })
       .then((res) => {
         console.log("Request complete! response:", res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        successBox.classList.remove("hidden");
+        formOverlay.classList.add("hidden");
+        successMessage.textContent = data.message;
 
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch((err) => {
         alert(err.message);
@@ -67,8 +87,16 @@ const deleteNote = async (id) => {
   })
     .then((res) => {
       console.log("Request complete! response:", res);
-
-      window.location.reload();
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      successBox.classList.remove("hidden");
+      closeDetails();
+      successMessage.textContent = data.message;
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     })
     .catch((err) => {
       alert(err.message);
@@ -123,12 +151,11 @@ const renderNotes = async () => {
   const notes = await getAllNotes();
 
   notes.data.forEach((note) => {
-    console.log(note.title.slice(0, 20));
     const noteCard = document.createElement("div");
     noteCard.classList.add("note");
     noteCard.innerHTML = `<h3>${
       note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
-    }</h3>`;
+    }</h3> <p class="date mt-2">${note.Date.slice(0, 10)}</p>`;
     noteContainer.appendChild(noteCard);
 
     noteCardHandler(noteCard, note._id);
@@ -136,12 +163,7 @@ const renderNotes = async () => {
 };
 
 detailsCloseBtn.addEventListener("click", () => {
-  titleDiv.setAttribute("contentEditable", "false");
-  contentDiv.setAttribute("contentEditable", "false");
-  titleDiv.classList.remove("active");
-  contentDiv.classList.remove("active");
-  modifyBtn.classList.add("hidden");
-  detailsOverlay.classList.toggle("hidden");
+  closeDetails();
 });
 
 const noteCardHandler = (noteCard, id) => {
@@ -162,8 +184,16 @@ const modifyDetails = async (id) => {
   })
     .then((res) => {
       console.log("Request complete! response:", res);
-
-      window.location.reload();
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      successBox.classList.remove("hidden");
+      closeDetails();
+      successMessage.textContent = data.message;
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     })
     .catch((err) => {
       alert(err.message);
