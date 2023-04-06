@@ -29,7 +29,7 @@
 
     <!-- popup to be shown on click on a note -->
     <div
-      class="details-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
+      class="details-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center z-50"
     >
       <div
         class="noteDetails bg-white md:w-1/2 w-[90%] h-1/3 p-5 rounded relative"
@@ -66,14 +66,14 @@
 
     <!-- show form -->
     <button
-      class="add-btn bg-black p-4 px-5 rounded-full text-white fixed bottom-[5%] left-[80%] md:left-[65%]"
+      class="add-btn border-2 border-white bg-black p-4 px-5 rounded-full text-white fixed bottom-[5%] left-[80%] md:left-[65%] z-30"
     >
       <i class="fa-solid fa-plus"></i>
     </button>
 
     <!-- form to add note -->
     <div
-      class="form-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center"
+      class="form-overlay hidden bg-[rgba(0,0,0,0.8)] fixed w-full h-full top-0 flex items-center justify-center z-50"
     >
       <form
         name="form"

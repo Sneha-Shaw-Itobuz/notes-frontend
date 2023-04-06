@@ -123,19 +123,21 @@ const renderNotes = async () => {
   const notes = await getAllNotes();
 
   notes.data.forEach((note) => {
+    console.log(note.title.slice(0, 20));
     const noteCard = document.createElement("div");
     noteCard.classList.add("note");
-    noteCard.innerHTML = `<h3>${note.title}</h3>`;
+    noteCard.innerHTML = `<h3>${
+      note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
+    }</h3>`;
     noteContainer.appendChild(noteCard);
 
     noteCardHandler(noteCard, note._id);
-    // noteCard.addEventListener("click", () => {
-    //   displayDetails(note._id);
-    // });
   });
 };
 
 detailsCloseBtn.addEventListener("click", () => {
+  titleDiv.setAttribute("contentEditable", "false");
+  contentDiv.setAttribute("contentEditable", "false");
   titleDiv.classList.remove("active");
   contentDiv.classList.remove("active");
   modifyBtn.classList.add("hidden");
