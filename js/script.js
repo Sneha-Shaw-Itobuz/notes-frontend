@@ -170,7 +170,7 @@ const renderNotes = async () => {
 
     noteCard.innerHTML = `<h3>${
       note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
-    }</h3> <p class="date mt-2">${note.Date.slice(0, 10)}</p>`;
+    }</h3> <p class="date">${note.Date.slice(0, 10)}</p>`;
 
     noteContainer.appendChild(noteCard);
 
