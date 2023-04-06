@@ -18,10 +18,16 @@ showFormBtn.addEventListener("click", () => {
   formOverlay.classList.toggle("hidden");
 });
 
+const closeForm = () => {
+  form.title.value = "";
+  form.content.value = "";
+  formOverlay.classList.toggle("hidden");
+};
+
 // close form
 formCloseBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  formOverlay.classList.toggle("hidden");
+  closeForm();
 });
 
 const closeDetails = () => {
@@ -32,6 +38,10 @@ const closeDetails = () => {
   modifyBtn.classList.add("hidden");
   detailsOverlay.classList.toggle("hidden");
 };
+
+detailsCloseBtn.addEventListener("click", () => {
+  closeDetails();
+});
 
 // post note on submit
 submitNoteBtn.addEventListener("click", async (e) => {
@@ -51,14 +61,12 @@ submitNoteBtn.addEventListener("click", async (e) => {
       }),
     })
       .then((res) => {
-        console.log("Request complete! response:", res);
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         successBox.classList.remove("hidden");
-        formOverlay.classList.add("hidden");
         successMessage.textContent = data.message;
+        closeForm();
 
         noteContainer.innerHTML = "";
         renderNotes();
@@ -89,11 +97,9 @@ const deleteNote = async (id) => {
     },
   })
     .then((res) => {
-      console.log("Request complete! response:", res);
       return res.json();
     })
     .then((data) => {
-      console.log(data);
       successBox.classList.remove("hidden");
       closeDetails();
       successMessage.textContent = data.message;
@@ -159,19 +165,18 @@ const renderNotes = async () => {
 
   notes.data.forEach((note) => {
     const noteCard = document.createElement("div");
+
     noteCard.classList.add("note");
+
     noteCard.innerHTML = `<h3>${
       note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
     }</h3> <p class="date mt-2">${note.Date.slice(0, 10)}</p>`;
+
     noteContainer.appendChild(noteCard);
 
     noteCardHandler(noteCard, note._id);
   });
 };
-
-detailsCloseBtn.addEventListener("click", () => {
-  closeDetails();
-});
 
 const noteCardHandler = (noteCard, id) => {
   noteCard.setAttribute("onclick", "displayDetails('" + id + "')");
@@ -190,11 +195,9 @@ const modifyDetails = async (id) => {
     }),
   })
     .then((res) => {
-      console.log("Request complete! response:", res);
       return res.json();
     })
     .then((data) => {
-      console.log(data);
       successBox.classList.remove("hidden");
       closeDetails();
 
