@@ -76,12 +76,12 @@ const deleteNote = async (id) => {
 };
 
 const editNote = async () => {
-  // console.log(titleDiv.getAttribute('contentEditable'));
   if (titleDiv.getAttribute("contentEditable") === "false") {
     titleDiv.setAttribute("contentEditable", "true");
   } else if (titleDiv.getAttribute("contentEditable") === "true") {
     titleDiv.setAttribute("contentEditable", "false");
   }
+
   if (contentDiv.getAttribute("contentEditable") === "false") {
     contentDiv.setAttribute("contentEditable", "true");
   } else if (contentDiv.getAttribute("contentEditable") === "true") {
@@ -142,11 +142,11 @@ detailsCloseBtn.addEventListener("click", () => {
   detailsOverlay.classList.toggle("hidden");
 });
 
-function noteCardHandler(noteCard, id) {
+const noteCardHandler = (noteCard, id) => {
   noteCard.setAttribute("onclick", "displayDetails('" + id + "')");
-}
+};
 
-async function modifyDetails(id) {
+const modifyDetails = async (id) => {
   await fetch(`${API}/update`, {
     method: "PUT",
     headers: {
@@ -166,6 +166,6 @@ async function modifyDetails(id) {
     .catch((err) => {
       alert(err.message);
     });
-}
+};
 
 renderNotes();
