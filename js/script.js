@@ -60,8 +60,11 @@ submitNoteBtn.addEventListener("click", async (e) => {
         formOverlay.classList.add("hidden");
         successMessage.textContent = data.message;
 
+        noteContainer.innerHTML = "";
+        renderNotes();
+
         setTimeout(() => {
-          window.location.reload();
+          successBox.classList.add("hidden");
         }, 3000);
       })
       .catch((err) => {
@@ -94,8 +97,12 @@ const deleteNote = async (id) => {
       successBox.classList.remove("hidden");
       closeDetails();
       successMessage.textContent = data.message;
+
+      noteContainer.innerHTML = "";
+      renderNotes();
+
       setTimeout(() => {
-        window.location.reload();
+        successBox.classList.add("hidden");
       }, 3000);
     })
     .catch((err) => {
@@ -190,9 +197,14 @@ const modifyDetails = async (id) => {
       console.log(data);
       successBox.classList.remove("hidden");
       closeDetails();
+
       successMessage.textContent = data.message;
+
+      noteContainer.innerHTML = "";
+      renderNotes();
+
       setTimeout(() => {
-        window.location.reload();
+        successBox.classList.add("hidden");
       }, 3000);
     })
     .catch((err) => {
