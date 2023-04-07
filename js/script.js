@@ -17,7 +17,7 @@ const successBoxCloseBtn = document.querySelector(".popup-close");
 
 const confirmOverlay = document.querySelector(".confirm-overlay");
 
-const API = "http://localhost:8080/notes";
+const baseUrl = "http://localhost:8080/notes";
 
 // toggle hide/show for form
 showFormBtn.addEventListener("click", () => {
@@ -60,7 +60,7 @@ submitNoteBtn.addEventListener("click", async (e) => {
     form.title.value.trim().length > 0 &&
     form.content.value.trim().length > 0
   ) {
-    await fetch(`${API}/create`, {
+    await fetch(`${baseUrl}/create`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -94,13 +94,13 @@ submitNoteBtn.addEventListener("click", async (e) => {
 });
 
 const getSingleNote = async (id) => {
-  const res = await fetch(`${API}/get-single-note/${id}`);
+  const res = await fetch(`${baseUrl}/get-single-note/${id}`);
   const data = res.json();
   return data;
 };
 
 const deleteNote = async (id) => {
-  await fetch(`${API}/delete/${id}`, {
+  await fetch(`${baseUrl}/delete/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
@@ -140,7 +140,6 @@ const editNote = async () => {
   } else if (contentDiv.getAttribute("contentEditable") === "true") {
     contentDiv.setAttribute("contentEditable", "false");
   }
-  // contentDiv.setAttribute("contentEditable", "true");
 
   titleDiv.classList.toggle("active");
   contentDiv.classList.toggle("active");
@@ -159,7 +158,7 @@ const displayDetails = async (id) => {
   modifyBtn.setAttribute("onclick", "modifyDetails('" + id + "')");
 
   detailsOverlay.querySelector(".delete-btn").addEventListener("click", () => {
-    // deleteNote(id);
+   
     confirmOverlay.classList.remove("hidden");
     confirmOverlay.querySelector(".delete").addEventListener("click", () => {
       deleteNote(id);
@@ -174,7 +173,7 @@ const displayDetails = async (id) => {
 };
 
 const getAllNotes = async () => {
-  const res = await fetch(`${API}/get`);
+  const res = await fetch(`${baseUrl}/get`);
   const data = res.json();
   return data;
 };
@@ -206,7 +205,7 @@ const noteCardHandler = (noteCard, id) => {
 };
 
 const modifyDetails = async (id) => {
-  await fetch(`${API}/update`, {
+  await fetch(`${baseUrl}/update`, {
     method: "PUT",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
