@@ -25,9 +25,15 @@
     <div
       class="success z-50 rounded-lg bg-white text-color-purple flex items-center justify-center drop-shadow-lg fixed right-[5%] mx-auto top-[10%] px-2 w-[90%] md:w-1/4 py-7 hidden"
     >
+      <button
+        class="ml-auto absolute top-[-4%] right-[-2%] bg-white text-color-purple drop-shadow-md rounded-full px-3 py-1 text-lg popup-close"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <i class="fa-regular fa-circle-check text-3xl mr-2"></i>
       <div class="message text-xl text-center"></div>
     </div>
+
     <!-- container for appending notes -->
     <div
       class="notes flex w-[90%] md:w-1/2 xl:w-[35%] mx-auto my-5 flex-col"
@@ -58,7 +64,7 @@
           <button
             class="hidden bg-color-purple text-white rounded mx-2 p-2 px-4 modify"
           >
-            Modify
+            Update
           </button>
           <button class="bg-color-purple text-white rounded mx-2 p-2 px-4 edit">
             <i class="fa-solid fa-pen-to-square"></i>
@@ -93,11 +99,11 @@
         >
           <i class="fa-solid fa-xmark"></i>
         </button>
-        <h3 class="text-4xl mb-2 font-semibold">Add Note</h3>
+        <h3 class="text-4xl mb-3 font-semibold">Add Note</h3>
         <input
           type="text"
           placeholder="Enter title"
-          class="w-full p-3 border-2 border-slate-200 mb-5 rounded-lg text-3xl md:text-5xl outline-0"
+          class="w-full p-3 border-2 border-slate-200 mb-5 rounded-lg text-3xl md:text-4xl outline-0"
           name="title"
         />
         <textarea
