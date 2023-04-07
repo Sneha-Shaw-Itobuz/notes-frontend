@@ -1,17 +1,21 @@
 const showFormBtn = document.querySelector(".add-btn");
 const formOverlay = document.querySelector(".form-overlay");
 const formCloseBtn = document.querySelector(".form-close");
+const submitNoteBtn = document.querySelector(".add-note");
+
 const detailsOverlay = document.querySelector(".details-overlay");
 const detailsCloseBtn = document.querySelector(".details-close");
 
-const submitNoteBtn = document.querySelector(".add-note");
 const noteContainer = document.querySelector(".notes");
 const modifyBtn = document.querySelector(".modify");
 const titleDiv = document.querySelector(".title");
 const contentDiv = document.querySelector(".content");
+
 const successBox = document.querySelector(".success");
 const successMessage = document.querySelector(".message");
 const successBoxCloseBtn = document.querySelector(".popup-close");
+
+const confirmOverlay = document.querySelector(".confirm-overlay");
 
 const API = "http://localhost:8080/notes";
 
@@ -33,7 +37,6 @@ formCloseBtn.addEventListener("click", (e) => {
 });
 
 successBoxCloseBtn.addEventListener("click", () => {
-  console.log("i");
   successBox.classList.add("hidden");
 });
 
@@ -107,6 +110,7 @@ const deleteNote = async (id) => {
       return res.json();
     })
     .then((data) => {
+      confirmOverlay.classList.add("hidden");
       closeDetails();
       successBox.classList.remove("hidden");
 
@@ -154,8 +158,15 @@ const displayDetails = async (id) => {
 
   modifyBtn.setAttribute("onclick", "modifyDetails('" + id + "')");
 
-  detailsOverlay.querySelector(".delete").addEventListener("click", () => {
-    deleteNote(id);
+  detailsOverlay.querySelector(".delete-btn").addEventListener("click", () => {
+    // deleteNote(id);
+    confirmOverlay.classList.remove("hidden");
+    confirmOverlay.querySelector(".delete").addEventListener("click", () => {
+      deleteNote(id);
+    });
+    confirmOverlay.querySelector(".cancel").addEventListener("click", () => {
+      confirmOverlay.classList.add("hidden");
+    });
   });
   detailsOverlay
     .querySelector(".edit")
@@ -186,7 +197,7 @@ const renderNotes = async () => {
       noteCardHandler(noteCard, note._id);
     });
   } else {
-    noteContainer.innerHTML = `<div class="empty" ><i class="fa-solid fa-note-sticky mr-5"></i>Notes you add show here</div>`;
+    noteContainer.innerHTML = `<div class="empty"><i class="fa-solid fa-note-sticky mr-5"></i>Notes you add show here</div>`;
   }
 };
 

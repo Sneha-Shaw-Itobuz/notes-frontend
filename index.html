@@ -13,6 +13,7 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
+
   <body>
     <nav
       class="w-full flex justify-around bg-color-purple text-white p-3 text-xl items-center"
@@ -70,11 +71,21 @@
             <i class="fa-solid fa-pen-to-square"></i>
           </button>
           <button
-            class="bg-color-purple text-white rounded mx-2 p-2 px-4 delete"
+            class="bg-color-purple text-white rounded mx-2 p-2 px-4 delete-btn"
           >
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
+      </div>
+    </div>
+    <!--  -->
+    <div
+      class="confirm-overlay bg-color-purple text-white fixed w-1/4 p-5 rounded-lg top-[40%] left-[40%]  flex flex-col items-center justify-center z-50 drop-shadow-lg hidden"
+    >
+      <p class="text-3xl mb-5">Are you sure ?</p>
+      <div>
+        <button class="hover:bg-slate-500 p-2 rounded mr-3 cancel">Cancel</button>
+        <button class="hover:bg-red-500 p-2 rounded delete">Delete</button>
       </div>
     </div>
 
