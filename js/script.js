@@ -43,7 +43,7 @@ const closeDetails = () => {
   titleDiv.classList.remove("active");
   contentDiv.classList.remove("active");
   modifyBtn.classList.add("hidden");
-  detailsOverlay.classList.toggle("hidden");
+  detailsOverlay.classList.add("hidden");
 };
 
 detailsCloseBtn.addEventListener("click", () => {
@@ -107,8 +107,9 @@ const deleteNote = async (id) => {
       return res.json();
     })
     .then((data) => {
-      successBox.classList.remove("hidden");
       closeDetails();
+      successBox.classList.remove("hidden");
+
       successMessage.textContent = data.message;
 
       noteContainer.innerHTML = "";
@@ -170,19 +171,23 @@ const getAllNotes = async () => {
 const renderNotes = async () => {
   const notes = await getAllNotes();
 
-  notes.data.forEach((note) => {
-    const noteCard = document.createElement("div");
+  if (notes.data.length > 0) {
+    notes.data.forEach((note) => {
+      const noteCard = document.createElement("div");
 
-    noteCard.classList.add("note");
+      noteCard.classList.add("note");
 
-    noteCard.innerHTML = `<h3>${
-      note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
-    }</h3> <p class="date">${note.Date.slice(0, 10)}</p>`;
+      noteCard.innerHTML = `<h3>${
+        note.title.length > 20 ? note.title.slice(0, 30) + "..." : note.title
+      }</h3> <p class="date">${note.Date.slice(0, 10)}</p>`;
 
-    noteContainer.appendChild(noteCard);
+      noteContainer.appendChild(noteCard);
 
-    noteCardHandler(noteCard, note._id);
-  });
+      noteCardHandler(noteCard, note._id);
+    });
+  } else {
+    noteContainer.innerHTML = `<div class="empty" ><i class="fa-solid fa-note-sticky mr-5"></i>Notes you add show here</div>`;
+  }
 };
 
 const noteCardHandler = (noteCard, id) => {
