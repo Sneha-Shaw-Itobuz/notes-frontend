@@ -204,37 +204,49 @@ const noteCardHandler = (noteCard, id) => {
   noteCard.setAttribute("onclick", "displayDetails('" + id + "')");
 };
 
+
 const modifyDetails = async (id) => {
-  await fetch(`${baseUrl}/update`, {
-    method: "PUT",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({
-      id: id,
+
+  fetchApi(
+    "PUT",
+    `${baseUrl}/update`,
+    JSON.stringify({
+      id,
       title: titleDiv.textContent,
       content: contentDiv.textContent,
     }),
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      successBox.classList.remove("hidden");
-      closeDetails();
-
-      successMessage.textContent = data.message;
-
-      noteContainer.innerHTML = "";
-      renderNotes();
-
-      setTimeout(() => {
-        successBox.classList.add("hidden");
-      }, 3000);
-    })
-    .catch((err) => {
+    (res) => {
+      res.json().then(data => {
+        successBox.classList.remove("hidden");
+        successMessage.textContent = data.message;
+        closeDetails();
+        noteContainer.innerHTML = "";
+        renderNotes();
+        setTimeout(() => {
+          successBox.classList.add("hidden");
+        }, 3000);
+      })
+    },
+    (err) => {
       alert(err.message);
-    });
+    }
+  )
+
 };
+
+async function fetchApi(method, url, data, successCallBack, errorCallBack) {
+  const response = await fetch(
+    url, {
+    method,
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: data,
+  }).then((res) => {
+    successCallBack(res);
+  }).catch(err => {
+    errorCallBack(err);
+  })
+}
 
 renderNotes();
