@@ -53,6 +53,7 @@ detailsCloseBtn.addEventListener("click", () => {
   closeDetails();
 });
 
+
 // post note on submit
 submitNoteBtn.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -60,34 +61,31 @@ submitNoteBtn.addEventListener("click", async (e) => {
     form.title.value.trim().length > 0 &&
     form.content.value.trim().length > 0
   ) {
-    await fetch(`${baseUrl}/create`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
+
+    fetchApi(
+      "POST",
+      `${baseUrl}/create`,
+      JSON.stringify({
         title: form.title.value,
         content: form.content.value,
       }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        successBox.classList.remove("hidden");
-        successMessage.textContent = data.message;
-        closeForm();
+      (res) => {
+        res.json().then((data) => {
+          successBox.classList.remove("hidden");
+          successMessage.textContent = data.message;
+          closeForm();
+          noteContainer.innerHTML = "";
+          renderNotes();
 
-        noteContainer.innerHTML = "";
-        renderNotes();
-
-        setTimeout(() => {
-          successBox.classList.add("hidden");
-        }, 3000);
-      })
-      .catch((err) => {
+          setTimeout(() => {
+            successBox.classList.add("hidden");
+          }, 3000);
+        });
+      },
+      (err) => {
         alert(err.message);
-      });
+      }
+    );
   } else {
     alert("fields are empty");
   }
@@ -100,32 +98,31 @@ const getSingleNote = async (id) => {
 };
 
 const deleteNote = async (id) => {
-  await fetch(`${baseUrl}/delete/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
+
+  fetchApi(
+    "DELETE",
+    `${baseUrl}/delete/${id}`,
+    null,
+    (res) => {
+      res.json().then((data) => {
+        confirmOverlay.classList.add("hidden");
+        closeDetails();
+        successBox.classList.remove("hidden");
+
+        successMessage.textContent = data.message;
+
+        noteContainer.innerHTML = "";
+        renderNotes();
+
+        setTimeout(() => {
+          successBox.classList.add("hidden");
+        }, 3000);
+      });
     },
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      confirmOverlay.classList.add("hidden");
-      closeDetails();
-      successBox.classList.remove("hidden");
-
-      successMessage.textContent = data.message;
-
-      noteContainer.innerHTML = "";
-      renderNotes();
-
-      setTimeout(() => {
-        successBox.classList.add("hidden");
-      }, 3000);
-    })
-    .catch((err) => {
+    (err) => {
       alert(err.message);
-    });
+    }
+  );
 };
 
 const editNote = async () => {
