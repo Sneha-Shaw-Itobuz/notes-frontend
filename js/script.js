@@ -14,6 +14,8 @@ const contentDiv = document.querySelector(".content");
 const successBox = document.querySelector(".success");
 const successMessage = document.querySelector(".message");
 const successBoxCloseBtn = document.querySelector(".popup-close");
+const errorIcon = document.querySelector(".errorIcon");
+const successIcon = document.querySelector(".successIcon");
 
 const confirmOverlay = document.querySelector(".confirm-overlay");
 
@@ -53,7 +55,6 @@ detailsCloseBtn.addEventListener("click", () => {
   closeDetails();
 });
 
-
 // post note on submit
 submitNoteBtn.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -61,7 +62,6 @@ submitNoteBtn.addEventListener("click", async (e) => {
     form.title.value.trim().length > 0 &&
     form.content.value.trim().length > 0
   ) {
-
     fetchApi(
       "POST",
       `${baseUrl}/create`,
@@ -71,7 +71,7 @@ submitNoteBtn.addEventListener("click", async (e) => {
       }),
       (res) => {
         res.json().then((data) => {
-          successBox.classList.remove("hidden");
+          successIcon.classList.remove("hidden");
           successMessage.textContent = data.message;
           closeForm();
           noteContainer.innerHTML = "";
@@ -92,13 +92,29 @@ submitNoteBtn.addEventListener("click", async (e) => {
 });
 
 const getSingleNote = async (id) => {
-  const res = await fetch(`${baseUrl}/get-single-note/${id}`);
-  const data = res.json();
+  const data = await fetch(`${baseUrl}/get-single-note/${id}`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if (data.success === false) {
+        successIcon.classList.add("hidden");
+        errorIcon.classList.remove("hidden");
+        successBox.classList.remove("hidden");
+        successMessage.textContent = data.message;
+        setTimeout(() => {
+          successIcon.classList.remove("hidden");
+          errorIcon.classList.add("hidden");
+          successBox.classList.add("hidden");
+        }, 3000);
+      } else {
+        return data;
+      }
+    });
   return data;
 };
 
 const deleteNote = async (id) => {
-
   fetchApi(
     "DELETE",
     `${baseUrl}/delete/${id}`,
@@ -155,7 +171,6 @@ const displayDetails = async (id) => {
   modifyBtn.setAttribute("onclick", "modifyDetails('" + id + "')");
 
   detailsOverlay.querySelector(".delete-btn").addEventListener("click", () => {
-   
     confirmOverlay.classList.remove("hidden");
     confirmOverlay.querySelector(".delete").addEventListener("click", () => {
       deleteNote(id);
@@ -170,9 +185,27 @@ const displayDetails = async (id) => {
 };
 
 const getAllNotes = async () => {
-  const res = await fetch(`${baseUrl}/get`);
-  const data = res.json();
-  return data;
+  const response = await fetch(`${baseUrl}/get`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if (data.success === false) {
+        successIcon.classList.add("hidden");
+        errorIcon.classList.remove("hidden");
+        successBox.classList.remove("hidden");
+
+        successMessage.textContent = data.message;
+        setTimeout(() => {
+          successIcon.classList.remove("hidden");
+          errorIcon.classList.add("hidden");
+          successBox.classList.add("hidden");
+        }, 3000);
+      } else {
+        return data;
+      }
+    });
+  return response;
 };
 
 const renderNotes = async () => {
@@ -201,9 +234,7 @@ const noteCardHandler = (noteCard, id) => {
   noteCard.setAttribute("onclick", "displayDetails('" + id + "')");
 };
 
-
 const modifyDetails = async (id) => {
-
   fetchApi(
     "PUT",
     `${baseUrl}/update`,
@@ -213,7 +244,7 @@ const modifyDetails = async (id) => {
       content: contentDiv.textContent,
     }),
     (res) => {
-      res.json().then(data => {
+      res.json().then((data) => {
         successBox.classList.remove("hidden");
         successMessage.textContent = data.message;
         closeDetails();
@@ -222,28 +253,32 @@ const modifyDetails = async (id) => {
         setTimeout(() => {
           successBox.classList.add("hidden");
         }, 3000);
-      })
+      });
     },
     (err) => {
-      alert(err.message);
+      successBox.classList.remove("hidden");
+      successMessage.textContent = err.message;
+      setTimeout(() => {
+        successBox.classList.add("hidden");
+      }, 3000);
     }
-  )
-
+  );
 };
 
 async function fetchApi(method, url, data, successCallBack, errorCallBack) {
-  const response = await fetch(
-    url, {
+  const response = await fetch(url, {
     method,
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
     body: data,
-  }).then((res) => {
-    successCallBack(res);
-  }).catch(err => {
-    errorCallBack(err);
   })
+    .then((res) => {
+      successCallBack(res);
+    })
+    .catch((err) => {
+      errorCallBack(err);
+    });
 }
 
 renderNotes();
